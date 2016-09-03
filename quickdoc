@@ -1,0 +1,13 @@
+Create a scraper for PHP
+Optional: Insert the data into an Excel file
+Categories:
+-Name: The name of the business Catalog, IE Beach Plum Resorts
+-Type: The type of business located within the catalog, IE Cottages
+-Address: The location of the business, IE 797 Old Montauk Highway, Montauk NY 11954
+-Website: The name of the website, IE www.beachplumresort.com, may be N/A
+-Email: The specified email given by the website, IE reservations@beachplum.com, may be N/A
+-PhoneNumber: The specified Phone Number from the listing, IE 123-456-7890, may be N/A
+-Fax: Same as Phone Number but specified with Fax: behind it. May be N/A
+-Description: Describes the company. May be N/A
+
+^ Object
