@@ -29,7 +29,7 @@ class Manipulator {
     var $fileType = "Excel2007";
     var $objPHPExcel = null;
 
-    public static function createWorkBook() {
+    public static function createWorkBook($sheetName) {
         /** Error reporting */
         error_reporting(E_ALL);
         ini_set('display_errors', TRUE);
@@ -83,7 +83,7 @@ class Manipulator {
 
 // Rename worksheet
         echo date('H:i:s') , " Rename worksheet" , EOL;
-        $objPHPExcel->getActiveSheet()->setTitle('Simple');
+        $objPHPExcel->getActiveSheet()->setTitle($sheetName);
 
 
 // Set active sheet index to the first sheet, so Excel opens this as the first sheet
@@ -104,13 +104,21 @@ class Manipulator {
                 ->setCellValue('H' . $index, $item->getDescription());
     }
 
+    public static function newSheet($index, $sheetName) {
+        global $objPHPExcel;
+        $objPHPExcel->setActiveSheetIndex($index);
+        $objPHPExcel->getActiveSheet()->setTitle($sheetName);
+    }
+
     public static function saveAndClose() {
         require_once dirname(__FILE__) . '\PHPExcel.php';
+        global $objPHPExcel;
+// Set active sheet index to the first sheet, so Excel opens this as the first sheet
+        $objPHPExcel->setActiveSheetIndex(0);
 // Save Excel 2007 file
         echo date('H:i:s') , " Write to Excel2007 format" , EOL;
         $callStartTime = microtime(true);
 
-        global $objPHPExcel;
         $objWriter = PHPExcel_IOFactory::createWriter($objPHPExcel, 'Excel2007');
         $objWriter->save(str_replace('.php', '.xlsx', __FILE__));
         $callEndTime = microtime(true);

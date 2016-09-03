@@ -7,7 +7,7 @@
  * Time: 5:04 PM
  */
 include 'iBusiness.php';
-class BusinessFull implements iBusiness
+class Business implements iBusiness
 {
     var $name;
     var $type;
