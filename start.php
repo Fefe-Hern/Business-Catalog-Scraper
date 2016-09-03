@@ -16,6 +16,7 @@ include 'Excel\Manipulator.php';
  * Time: 5:18 PM
  */
 //Create the list of Businesses in memory.
+Manipulator::createWorkBook();
 $businessList = new BusinessList();
 
 $fakeBusiness = new BusinessFull("Fernando's Laboratory");
@@ -28,7 +29,9 @@ $secondBusiness->setAttributes("Animal Care", "Earth", "tiffysbunnies.com", "tif
     "653-123-4632", "N/A", "The most epic bunnies in existance!");
 $businessList->addToArray($secondBusiness);
 
-$businessList->dumpArray();
+
+$businessList->addListToExcel();
+//$businessList->dumpArray();
 //echo $fakeBusiness->printInfo();
 //Manipulator::createWorkBook();
 ?>

@@ -25,6 +25,10 @@
  * @version    ##VERSION##, ##DATE##
  */
 class Manipulator {
+    var $fileName = "Manipulator.xlsx";
+    var $fileType = "Excel2007";
+    var $objPHPExcel = null;
+
     public static function createWorkBook() {
         /** Error reporting */
         error_reporting(E_ALL);
@@ -40,6 +44,7 @@ class Manipulator {
 
 // Create new PHPExcel object
         echo date('H:i:s') , " Create new PHPExcel object" , EOL;
+        global $objPHPExcel;
         $objPHPExcel = new PHPExcel();
 
 // Set document properties
@@ -65,8 +70,14 @@ class Manipulator {
             ->setCellValue('G1', 'Fax #')
             ->setCellValue('H1', 'Description');
 
-        $objPHPExcel->getActiveSheet()->getColumnDimension('A')->setWidth(50); //Business Name Width Increased
-        $objPHPExcel->getActiveSheet()->getColumnDimension('H')->setWidth(150); //Description Width Increased
+        $objPHPExcel->getActiveSheet()->getColumnDimension('A')->setWidth(30); //Business Name Width Increased
+        $objPHPExcel->getActiveSheet()->getColumnDimension('B')->setWidth(15); //Business Name Width Increased
+        $objPHPExcel->getActiveSheet()->getColumnDimension('C')->setWidth(40); //Business Name Width Increased
+        $objPHPExcel->getActiveSheet()->getColumnDimension('D')->setWidth(25); //Business Name Width Increased
+        $objPHPExcel->getActiveSheet()->getColumnDimension('E')->setWidth(25); //Business Name Width Increased
+        $objPHPExcel->getActiveSheet()->getColumnDimension('F')->setWidth(15); //Business Name Width Increased
+        $objPHPExcel->getActiveSheet()->getColumnDimension('G')->setWidth(15); //Business Name Width Increased
+        $objPHPExcel->getActiveSheet()->getColumnDimension('H')->setWidth(80); //Description Width Increased
         $objPHPExcel->getActiveSheet()->getStyle('A8')->getAlignment()->setWrapText(true);
 
 
@@ -78,11 +89,28 @@ class Manipulator {
 // Set active sheet index to the first sheet, so Excel opens this as the first sheet
         $objPHPExcel->setActiveSheetIndex(0);
 
+    }
 
+    public static function addBusiness($index, $item) {
+        global $objPHPExcel;
+        $objPHPExcel->setActiveSheetIndex(0)
+                ->setCellValue('A' . $index, $item->getName())
+                ->setCellValue('B' . $index, $item->getType())
+                ->setCellValue('C' . $index, $item->getAddress())
+                ->setCellValue('D' . $index, $item->getWebsite())
+                ->setCellValue('E' . $index, $item->getEmail())
+                ->setCellValue('F' . $index, $item->getPhone())
+                ->setCellValue('G' . $index, $item->getFax())
+                ->setCellValue('H' . $index, $item->getDescription());
+    }
+
+    public static function saveAndClose() {
+        require_once dirname(__FILE__) . '\PHPExcel.php';
 // Save Excel 2007 file
         echo date('H:i:s') , " Write to Excel2007 format" , EOL;
         $callStartTime = microtime(true);
 
+        global $objPHPExcel;
         $objWriter = PHPExcel_IOFactory::createWriter($objPHPExcel, 'Excel2007');
         $objWriter->save(str_replace('.php', '.xlsx', __FILE__));
         $callEndTime = microtime(true);
@@ -94,19 +122,6 @@ class Manipulator {
         echo date('H:i:s') , ' Current memory usage: ' , (memory_get_usage(true) / 1024 / 1024) , " MB" , EOL;
 
 
-// Save Excel 95 file
-        echo date('H:i:s') , " Write to Excel5 format" , EOL;
-        $callStartTime = microtime(true);
-
-        $objWriter = PHPExcel_IOFactory::createWriter($objPHPExcel, 'Excel5');
-        $objWriter->save(str_replace('.php', '.xls', __FILE__));
-        $callEndTime = microtime(true);
-        $callTime = $callEndTime - $callStartTime;
-
-        echo date('H:i:s') , " File written to " , str_replace('.php', '.xls', pathinfo(__FILE__, PATHINFO_BASENAME)) , EOL;
-        echo 'Call time to write Workbook was ' , sprintf('%.4f',$callTime) , " seconds" , EOL;
-// Echo memory usage
-        echo date('H:i:s') , ' Current memory usage: ' , (memory_get_usage(true) / 1024 / 1024) , " MB" , EOL;
 
 
 // Echo memory peak usage

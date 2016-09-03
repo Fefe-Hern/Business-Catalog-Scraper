@@ -9,7 +9,6 @@
 class BusinessList
 {
     var $businessArray;
-
     /**
      * BusinessList constructor.
      * @param $businessArray
@@ -24,5 +23,15 @@ class BusinessList
     }
     public function dumpArray() {
         var_dump($this->businessArray);
+    }
+
+    public function addListToExcel()
+    {
+        $index = 2;
+        foreach ($this->businessArray as $item) {
+            Manipulator::addBusiness($index, $item);
+            $index++;
+        }
+        Manipulator::saveAndClose();
     }
 }
