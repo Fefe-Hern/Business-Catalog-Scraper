@@ -53,9 +53,9 @@ class Manipulator {
             ->setLastModifiedBy("Fernando Hernandez")
             ->setTitle("Businesses from Commerce Sites")
             ->setSubject("PHPExcel Test Document")
-            ->setDescription("Test document for PHPExcel, generated using PHP classes.")
-            ->setKeywords("office PHPExcel php")
-            ->setCategory("Test result file");
+            ->setDescription("Business Catalog, generated using PHP classes PHPExcel and simple_html_dom.")
+            ->setKeywords("office PHPExcel php Business Catalog")
+            ->setCategory("Business Catalog");
 
 
 // Add some data
@@ -71,18 +71,16 @@ class Manipulator {
             ->setCellValue('H1', 'Description');
 
         $objPHPExcel->getActiveSheet()->getColumnDimension('A')->setWidth(30); //Business Name Width Increased
-        $objPHPExcel->getActiveSheet()->getColumnDimension('B')->setWidth(15); //Business Name Width Increased
-        $objPHPExcel->getActiveSheet()->getColumnDimension('C')->setWidth(40); //Business Name Width Increased
-        $objPHPExcel->getActiveSheet()->getColumnDimension('D')->setWidth(25); //Business Name Width Increased
-        $objPHPExcel->getActiveSheet()->getColumnDimension('E')->setWidth(25); //Business Name Width Increased
-        $objPHPExcel->getActiveSheet()->getColumnDimension('F')->setWidth(15); //Business Name Width Increased
-        $objPHPExcel->getActiveSheet()->getColumnDimension('G')->setWidth(15); //Business Name Width Increased
+        $objPHPExcel->getActiveSheet()->getColumnDimension('B')->setWidth(15); //Type Width Decreased
+        $objPHPExcel->getActiveSheet()->getColumnDimension('C')->setWidth(40); //Address Width Increased
+        $objPHPExcel->getActiveSheet()->getColumnDimension('D')->setWidth(8);  //Website Link Width Decreased
+        $objPHPExcel->getActiveSheet()->getColumnDimension('E')->setWidth(25); //Email Width Increased
+        $objPHPExcel->getActiveSheet()->getColumnDimension('F')->setWidth(15); //Phone Width Increased
+        $objPHPExcel->getActiveSheet()->getColumnDimension('G')->setWidth(15); //Fax Width Increased
         $objPHPExcel->getActiveSheet()->getColumnDimension('H')->setWidth(80); //Description Width Increased
-        $objPHPExcel->getActiveSheet()->getStyle('A8')->getAlignment()->setWrapText(true);
-
 
 // Rename worksheet
-        echo date('H:i:s') , " Rename worksheet" , EOL;
+        echo date('H:i:s') , " Rename worksheet to " . $sheetName , EOL;
         $objPHPExcel->getActiveSheet()->setTitle($sheetName);
 
 
@@ -97,11 +95,25 @@ class Manipulator {
                 ->setCellValue('A' . $index, $item->getName())
                 ->setCellValue('B' . $index, $item->getType())
                 ->setCellValue('C' . $index, $item->getAddress())
-                ->setCellValue('D' . $index, $item->getWebsite())
+                ->setCellValue('D' . $index, "Link")
                 ->setCellValue('E' . $index, $item->getEmail())
                 ->setCellValue('F' . $index, $item->getPhone())
                 ->setCellValue('G' . $index, $item->getFax())
                 ->setCellValue('H' . $index, $item->getDescription());
+
+        // Create Hyperlink for Website
+        $websiteCell = "D" . $index; //As shown in setCellValue, this affects the website link design.
+        $link_style_array = [
+            'font'  => [
+                'color' => ['rgb' => '0000FF'],
+                'underline' => 'single'
+            ]
+        ];
+        $objPHPExcel->getActiveSheet()->getStyle($websiteCell)->applyFromArray($link_style_array);
+        $objPHPExcel->getActiveSheet()->getCell($websiteCell)->
+                setDataType(PHPExcel_Cell_DataType::TYPE_STRING2);
+        $objPHPExcel->getActiveSheet()->getCell($websiteCell)->
+                getHyperlink()->setUrl($item->getWebsite());
     }
 
     public static function newSheet($index, $sheetName) {
@@ -113,9 +125,15 @@ class Manipulator {
     public static function saveAndClose() {
         require_once dirname(__FILE__) . '\PHPExcel.php';
         global $objPHPExcel;
-// Set active sheet index to the first sheet, so Excel opens this as the first sheet
+        // Set active sheet index to the first sheet, so Excel opens this as the first sheet
         $objPHPExcel->setActiveSheetIndex(0);
-// Save Excel 2007 file
+        // Wrap the name and address to prevent stacking
+        $objPHPExcel->getActiveSheet()->getStyle('A1:A'.$objPHPExcel->getActiveSheet()->getHighestRow())
+            ->getAlignment()->setWrapText(true);
+        $objPHPExcel->getActiveSheet()->getStyle('C1:C'.$objPHPExcel->getActiveSheet()->getHighestRow())
+            ->getAlignment()->setWrapText(true);
+
+        // Save Excel 2007 file
         echo date('H:i:s') , " Write to Excel2007 format" , EOL;
         $callStartTime = microtime(true);
 
@@ -126,7 +144,7 @@ class Manipulator {
 
         echo date('H:i:s') , " File written to " , str_replace('.php', '.xlsx', pathinfo(__FILE__, PATHINFO_BASENAME)) , EOL;
         echo 'Call time to write Workbook was ' , sprintf('%.4f',$callTime) , " seconds" , EOL;
-// Echo memory usage
+        // Echo memory usage
         echo date('H:i:s') , ' Current memory usage: ' , (memory_get_usage(true) / 1024 / 1024) , " MB" , EOL;
 
 

@@ -18,22 +18,5 @@ include 'Scrapers\GreenwichScraper.php';
  */
 //Create the list of Businesses in memory. Name the first scraper used here
 Manipulator::createWorkBook('Greenwich');
-//$businessList = new BusinessList();
 GreenwichScraper::scrape();
-/*
-$fakeBusiness = new BusinessFull("Fernando's Laboratory");
-$fakeBusiness->setAttributes("Lab", "7 W Lane, Central NY NY 11723", "wwww.tcgdex.net",
-    "fernhean@hotmail.nw", "123-456-7890", "312-312-4212", "My lab is full of enourmous surprises");
-$businessList->addToArray($fakeBusiness);
-
-$secondBusiness = new BusinessFull("Tiffy's Bunnies");
-$secondBusiness->setAttributes("Animal Care", "Earth", "tiffysbunnies.com", "tiffy23@aol.321",
-    "653-123-4632", "N/A", "The most epic bunnies in existance!");
-$businessList->addToArray($secondBusiness);
-*/
-
-
-//$businessList->dumpArray();
-//echo $fakeBusiness->printInfo();
-//Manipulator::createWorkBook();
 ?>
