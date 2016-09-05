@@ -57,6 +57,6 @@ class GreenwichScraper
         }
 
         //Add the entire list of businesses to excel
-        $businessList->addListToExcel();
+        $businessList->addListToExcel("Greenwich Catalog");
     }
 }

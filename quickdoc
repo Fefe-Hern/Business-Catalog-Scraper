@@ -7,7 +7,7 @@ Categories:
 -Website: The name of the website, IE www.beachplumresort.com, may be N/A
 -Email: The specified email given by the website, IE reservations@beachplum.com, may be N/A
 -PhoneNumber: The specified Phone Number from the listing, IE 123-456-7890, may be N/A
--Fax: Same as Phone Number but specified with Fax: behind it. May be N/A
+DELETED : -Fax: Same as Phone Number but specified with Fax: behind it. May be N/A
 -Description: Describes the company. May be N/A
 
 ^ Object

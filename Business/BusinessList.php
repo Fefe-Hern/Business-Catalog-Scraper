@@ -25,13 +25,13 @@ class BusinessList
         var_dump($this->businessArray);
     }
 
-    public function addListToExcel()
+    public function addListToExcel($fileName)
     {
         $index = 2;
         foreach ($this->businessArray as $item) {
             Manipulator::addBusiness($index, $item);
             $index++;
         }
-        Manipulator::saveAndClose();
+        Manipulator::saveAndClose($fileName);
     }
 }

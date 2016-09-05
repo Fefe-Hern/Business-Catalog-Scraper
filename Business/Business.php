@@ -15,7 +15,6 @@ class Business implements iBusiness
     var $website;
     var $email;
     var $phone;
-    var $fax;
     var $description;
 
     /**
@@ -41,19 +40,17 @@ class Business implements iBusiness
         Website: $this->website\n
         E-Mail: $this->email\n
         Phone: $this->phone\n
-        Fax: $this->fax\n
         Description: $this->description\n
         --------------------\n
         ";
     }
 
-    public function setAttributes($type, $address, $website, $email, $phone, $fax, $description) {
+    public function setAttributes($type, $address, $website, $email, $phone, $description) {
         $this->type = $type;
         $this->address = $address;
         $this->website = $website;
         $this->email = $email;
         $this->phone = $phone;
-        $this->fax = $fax;
         $this->description = $description;
     }
 
@@ -151,22 +148,6 @@ class Business implements iBusiness
     public function setPhone($phone)
     {
         $this->phone = $phone;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getFax()
-    {
-        return $this->fax;
-    }
-
-    /**
-     * @param mixed $fax
-     */
-    public function setFax($fax)
-    {
-        $this->fax = $fax;
     }
 
     /**

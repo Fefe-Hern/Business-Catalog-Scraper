@@ -7,7 +7,9 @@
 include 'Business\BusinessList.php';
 include 'Excel\Manipulator.php';
 // TODO: Include all the web scrapers for different commerce chambers
-include 'Scrapers\GreenwichScraper.php';
+foreach (glob("Scrapers/*.php") as $fileName) {
+    include $fileName;
+}
 ?>
 <?php
 /**
@@ -19,4 +21,7 @@ include 'Scrapers\GreenwichScraper.php';
 //Create the list of Businesses in memory. Name the first scraper used here
 Manipulator::createWorkBook('Greenwich');
 GreenwichScraper::scrape();
+
+Manipulator::createWorkBook('East Hampton');
+EHamptonScraper::scrape();
 ?>
